@@ -12,7 +12,7 @@ sleep_time=20 # time until next automated check if connection still authorised, 
 STATUS_URL="${FIREWALL_URL}api/captiveportal/access/status/0/"
 LOGIN_URL="${FIREWALL_URL}api/captiveportal/access/logon/0/"
 VERSION="v1.0"
-echo "INFO: Starting autologin.sh; Version:${VERSION}"
+echo "INFO: Starting autologin.sh ; Version : ${VERSION}"
 
 while true; do
       STATUS_RESPONSE=$(curl -s -X POST $STATUS_URL \
@@ -60,7 +60,7 @@ while true; do
         if [ "$LOGIN_STATE" == "AUTHORIZED" ]; then
           echo "INFO: Login successful"
         else
-          echo "INFO: Login unsuccessful"
+          echo "INFO: Login unsuccessful, check password or try again"
         fi
       fi
       sleep $sleep_time
