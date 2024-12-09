@@ -21,25 +21,34 @@ headers = {'Referer':key_url,
            'Priority':'u=1',
            'DNT':'1',
            'Connection':'keep-alive'}
-payload = f"user={username}&password={password}"
+
+payload = {'user':username, 'password':password}
+
 # vielleicht parameters siehe wiki
 
 headers_status = {'Referer':key_url,
                   'Origin':key_url,
                   'DNT':'1',
                   'Connection':'keep-alive'}
-payload_status = "user=&password="
+payload_status = {'user':'','password':''}
+#payload_status = "user=&password="
 #payload_second = 'user=' + username + '&password=' + password
-#payload = {'user':username, 'password':password}
+#payload = f"user={username}&password={password}"
+
+
 
 while True:
     status_response = requests.post(status_url, headers=headers_status, data=payload_status)
+    list_status_response = status_response.json()
     print(status_response.json())
-    if login_status:
-         pass
+
+    if list_status_response["clientState"] == "AUTHORIZED":
+         print("AUTHORIZED")
+         #pass
     else:
         login_request_response = requests.post(login_url, headers=headers, data=payload)
         print(login_request_response.json())
+        print(login_request_response.json()["clientState"])
     sleep(time_before_repeat)
 
 #r = requests.post(status_url, headers=headers, data=payload)
