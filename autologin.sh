@@ -3,7 +3,7 @@
 # -------------------------------------------------
 USERNAME="your username here"
 PASSWORD="your password here"
-FIREWALL_URL="http://172.16.0.254:8000/" # Replace with the Url of your Firewall captiveportal
+FIREWALL_URL="http://192.168.1.1/" # Replace with the Url of your Firewall captiveportal
 sleep_time=20 # time until next automated check if connection still authorised, default = 20
 # ----------------------------------
 
