@@ -40,15 +40,18 @@ def user_input(error_input):
 def internet_connection_avaliable():
     try:
         connection_test = requests.get(key_url)
-        print(connection_test.text)
         return True
     except Exception as e:
         print(f"INFO: CANT CONNECT TO FIREWALL: {e}")
         return False
 
-def login_status_request():
+def login_status_request_json():
     status_response = requests.post(status_url, headers=headers_status, data=payload_status)
     return status_response.json()
+
+def login_status_request():
+    status_response = requests.post(status_url, headers=headers_status, data=payload_status)
+    return status_response
 
 
 while True:
@@ -57,8 +60,7 @@ while True:
     if not internet_connection_avaliable():
         print("INFO: NO CONNECTION")
     elif login_status_request().status_code == 200:
-        print("INFO: CONNECTION")
-        if login_status_request()["clientState"] == "AUTHORIZED":
+        if login_status_request_json()["clientState"] == "AUTHORIZED":
             print("INFO: LOGGED IN")
         else:
             login_request_response = requests.post(login_url, headers=headers, data=payload)
