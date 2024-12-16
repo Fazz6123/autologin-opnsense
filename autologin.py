@@ -1,9 +1,9 @@
 # Autologin OpnSense-CaptivePortal Python
 # ---- Change to your configuration below ----
-key_url = 'http://192.168.1.1/' # Ip Address of your firewall, you want to log in
+key_url = 'http://172.16.0.254:8000/' # Ip Address of your firewall, you want to log in
 time_before_repeat = 30          # Time (seconds) between every check, if you are either connected to your firewall, or if you got logged out - default = 30
-username = "username"            # Your Username
-password = "password123!"        # And your password
+username = "peckfe"            # Your Username
+password = "ygYD5)3T"        # And your password
 # ----
 # Only change anything below if you know what to do
 
@@ -37,24 +37,34 @@ def user_input(error_input):
         else:
             print("INFO: INPUT DOESNT MATCH")
 
+def internet_connection_avaliable():
+    try:
+        connection_test = requests.get(key_url)
+        print(connection_test.text)
+        return True
+    except Exception as e:
+        print(f"INFO: CANT CONNECT TO FIREWALL: {e}")
+        return False
+
+def login_status_request():
+    status_response = requests.post(status_url, headers=headers_status, data=payload_status)
+    return status_response.json()
 
 
 while True:
-    status_response = requests.post(status_url, headers=headers_status, data=payload_status)
-    list_status_response = status_response.json()
     # print(status_response.json())
 
-    if status_response.status_code == 000:
+    if not internet_connection_avaliable():
         print("INFO: NO CONNECTION")
-    elif status_response.status_code == 200:
-
-        if list_status_response["clientState"] == "AUTHORIZED":
-            pass
+    elif login_status_request().status_code == 200:
+        print("INFO: CONNECTION")
+        if login_status_request()["clientState"] == "AUTHORIZED":
+            print("INFO: LOGGED IN")
         else:
             login_request_response = requests.post(login_url, headers=headers, data=payload)
             print(login_request_response.json()["clientState"])
     else:
-        print(f"ERROR: UNKNOWN HTTP response: {status_response.status_code}")
+        print(f"ERROR: UNKNOWN HTTP response: {login_status_request().status_code}")
         if not user_input(str(input("Retry/Continue (y/n): "))):
             exit(1)
     sleep(time_before_repeat)
