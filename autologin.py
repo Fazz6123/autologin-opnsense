@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
 # Autologin OpnSense-CaptivePortal Python
 # ---- Change to your configuration below ----
-key_url = 'http://172.16.0.254:8000/' # Ip Address of your firewall, you want to log in
+key_url = 'http://192.168.1.1/'  # Ip Address of your firewall, you want to log in
 time_before_repeat = 30          # Time (seconds) between every check, if you are either connected to your firewall, or if you got logged out - default = 30
-username = "peckfe"            # Your Username
-password = "ygYD5)3T"        # And your password
+username = "username"            # Your Username
+password = "password"            # And your password
 # ----
 # Only change anything below if you know what to do
 
@@ -39,7 +40,7 @@ def user_input(error_input):
 
 def internet_connection_avaliable():
     try:
-        connection_test = requests.get(key_url)
+        requests.get(key_url)
         return True
     except Exception as e:
         print(f"INFO: CANT CONNECT TO FIREWALL: {e}")
