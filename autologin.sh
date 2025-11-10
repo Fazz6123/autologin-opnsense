@@ -52,7 +52,7 @@ isLoggedIn() {
   )
   CLIENT_STATE=$(jq -r '.clientState' <<< "$STATUS_RESPONSE")
 
-  if [ "$CLIENT_STATE" == "AUTHORIZED" ]; then
+  if [ "$CLIENT_STATE" = "AUTHORIZED" ]; then
     return 0
   else
     return 1
