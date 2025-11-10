@@ -1,6 +1,6 @@
 # Automatically log into your opnsense:captiveportal
 ## Installation
-🔥 Install instructions for Termux 🔥
+🔥 Install instructions for [Termux](https://github.com/termux/termux-app)🔥
 ```bash
 pkg update && pkg upgrade -y && pkg install git jq -y && git clone https://github.com/Fazz6123/autologin-opnsense.git && mv autologin-opnsense/autologin.sh ~ && rm -r -f autologin-opnsense/ && nano autologin.sh
 ```
